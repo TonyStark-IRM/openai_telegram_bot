@@ -1,4 +1,4 @@
-from config import TG_BOT_API_KEY
+from src.settings.config import TG_BOT_API_KEY
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from utils import load_messages_for_bot

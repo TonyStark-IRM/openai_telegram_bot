@@ -1,4 +1,4 @@
-from config import PATH_TO_RESOURCES
+from src.settings.config import PATH_TO_RESOURCES
 
 
 def load_messages_for_bot(name: str) -> str:
