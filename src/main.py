@@ -11,7 +11,7 @@ from bot.commands import start, random, gpt, quiz, translator, image_recognition
 from bot.handlers.message_router import message_router
 from bot.handlers.quiz_handler import handle_quiz_topic_selection
 from bot.handlers.translator_handler import handle_message_router
-from bot.handlers.image_recognition_handler import handle_image_recognition_file_load
+from bot.handlers.image_recognition_handler import image_recognition_command
 
 from db.initializer import DatabaseInitializer
 from db.repository import GptThreadRepository

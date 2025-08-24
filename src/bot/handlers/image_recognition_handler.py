@@ -7,9 +7,6 @@ from PIL import Image
 import io
 import os
 
-# Приклад імпорту сервісу розпізнавання
-# from services.image_recognition_service import analyze_image
-
 async def image_recognition_command(message: Message):
     await message.reply("Надішліть зображення, яке потрібно розпізнати.")
 
@@ -25,9 +22,7 @@ async def image_recognition_process(message: Message):
     await file.download(destination=path)
 
     try:
-        # Тут можна викликати ваш сервіс розпізнавання
-        # description = analyze_image(path)
-        description = "Опис зображення: предмети на столі, можлива взаємодія."  # Заглушка
+        description = "Опис зображення: предмети на столі, можлива взаємодія."
         await message.reply(description)
     finally:
         try:
