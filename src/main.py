@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import(
+from telegram.ext import (
     ApplicationBuilder,
     CommandHandler,
     CallbackQueryHandler,
@@ -9,10 +9,10 @@ from telegram.ext import(
 
 from bot.commands import start, random, gpt, quiz
 from bot.handlers.message_router import message_router
-from bot.handlers.quiz_handler import handler_quiz_topic_selection
+from bot.handlers.quiz_handler import handle_quiz_topic_selection
 from db.initializer import DatabaseInitializer
 from db.repository import GptThreadRepository
-from sevices import OpenAIClient
+from services import OpenAIClient
 from settings.config import config
 
 
@@ -53,12 +53,12 @@ def main():
     thread_repository = GptThreadRepository(config.path_to_db)
 
     openai_client = OpenAIClient(
-        openai_api_key = config.openai_api_key,
-        model = config.openai_model,
-        temperature = config.openai_model_temperature
+        openai_api_key=config.openai_api_key,
+        model=config.openai_model,
+        temperature=config.openai_model_temperature
     )
 
-    app = ApplicationBuilder().token(confg.tg_bot_api_key).build()
+    app = ApplicationBuilder().token(config.tg_bot_api_key).build()
 
     app.bot_data["openai_client"] = openai_client
     app.bot_data["thread_repository"] = thread_repository
@@ -70,12 +70,12 @@ def main():
 
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), message_router))
 
-    app.add_handler(CallbackQueryHandler(start, pattern = "^start$"))
+    app.add_handler(CallbackQueryHandler(start, pattern="^start$"))
     app.add_handler(CallbackQueryHandler(random, pattern="^random$"))
-    app.add_handler(CallbackQueryHandler(handler_quiz_topic_selection, pattern="^quiz_(python|javascript|docker|web)$"))
+    app.add_handler(CallbackQueryHandler(handle_quiz_topic_selection, pattern="^quiz_(python|javascript|docker|web)$"))
 
-    app.run_polling(allowed_updates = Update.ALL_TYPES)
+    app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
