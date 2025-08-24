@@ -41,6 +41,9 @@ class AppConfig(BaseSettings):
     ai_assistant_random_facts_id: str
     ai_assistant_fact_spark_id: str
     ai_assistant_quiz_master_id: str
+    ai_assistant_translator_proffessional_id: str
+    ai_assistant_image_recognition_program_id: str
+
 
     openai_model: str = "gpt-3.5-turbo"
     openai_model_temperature: float = 0.8

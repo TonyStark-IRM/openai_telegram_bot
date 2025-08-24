@@ -4,6 +4,8 @@ from telegram.ext import ContextTypes
 from db.enums import SessionMode
 from bot.handlers.gpt_handler import gpt_message_handler
 from bot.handlers.quiz_handler import handle_quiz_answer
+from bot.handlers.translator_handler import handle_quiz_answer
+
 
 
 async def message_router(update: Update, context: ContextTypes.DEFAULT_TYPE):

@@ -7,13 +7,17 @@ from telegram.ext import (
     filters
 )
 
-from bot.commands import start, random, gpt, quiz
+from bot.commands import start, random, gpt, quiz, translator, image_recognition
 from bot.handlers.message_router import message_router
 from bot.handlers.quiz_handler import handle_quiz_topic_selection
+from bot.handlers.translator_handler import handle_message_router
+from bot.handlers.image_recognition_handler import handle_image_recognition_file_load
+
 from db.initializer import DatabaseInitializer
 from db.repository import GptThreadRepository
 from services import OpenAIClient
 from settings.config import config
+from src.bot.handlers.image_recognition_handler import image_recognition_command
 
 
 def main():
@@ -31,6 +35,8 @@ def main():
         - /random: Sends a random technical fact from the assistant.
         - /gpt: Enters GPT chat mode, allowing users to ask questions.
         - /quiz: Launches the quiz mode with topic selection.
+        - /translator: Translate a typed text.
+        - /image_recognition: Allows users to upload image and receive details recognition report
 
         - message_router: Routes user text input to GPT or quiz mode depending on session.
         - CallbackQueryHandler with patterns:
@@ -67,12 +73,16 @@ def main():
     app.add_handler(CommandHandler("random", random))
     app.add_handler(CommandHandler("gpt", gpt))
     app.add_handler(CommandHandler("quiz", quiz))
+    app.add_handler(CommandHandler("translator", translator))
+    app.add_handler(CommandHandler("image_recognition", image_recognition))
 
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), message_router))
 
     app.add_handler(CallbackQueryHandler(start, pattern="^start$"))
     app.add_handler(CallbackQueryHandler(random, pattern="^random$"))
     app.add_handler(CallbackQueryHandler(handle_quiz_topic_selection, pattern="^quiz_(python|javascript|docker|web)$"))
+    app.add_handler(CallbackQueryHandler(translator, pattern="^translator$"))
+    app.add_handler(CallbackQueryHandler(image_recognition, pattern="^image_recognition_(jpg|web)$"))
 
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
